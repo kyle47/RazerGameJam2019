@@ -8,27 +8,34 @@ using Mirror;
 
 public class PlayerComponent : NetworkBehaviour
 {
-    protected const float SYNC_INTERVAL = 1.0f / 30;
+    protected const float SYNC_INTERVAL = 1.0f / 45;
 
+    [HideInInspector]
     public float InputVertical;
+    [HideInInspector]
     public float InputHorizontal;
 
-    public PlayerType PlayerType;
+    [HideInInspector]
+    public string Name;
+    [HideInInspector]
+    public PlayerRole Role;
+    [HideInInspector]
+    public Color Color;
 
-    public GameObject TankPrefab;
-
-    protected TankComponent _tank;
+    [HideInInspector]
+    public TankComponent Tank;
 
     protected float _nextInputSyncTime;
 
     private void Start()
     {
-        if(isServer)
+        if(hasAuthority)
         {
-            var tankObject = NetworkManager.Instantiate(TankPrefab, Vector3.zero, Quaternion.identity);
-            NetworkServer.Spawn(tankObject);
-            var tank = tankObject.GetComponent<TankComponent>();
-            _tank = tank;
+            Cmd_SetPlayerInfo(
+                GameManager.Instance.PlayerName,
+                GameManager.Instance.PlayerRole,
+                GameManager.Instance.PlayerColor
+            );
         }
     }
 
@@ -48,8 +55,15 @@ public class PlayerComponent : NetworkBehaviour
 
         if (isServer)
         {
-            _tank.InputVertical = InputVertical;
-            _tank.InputHorizontal = InputHorizontal;
+            if(Role == PlayerRole.DRIVER)
+            {
+                Tank.TreadInputVertical = InputVertical;
+                Tank.TreadInputHorizontal = InputHorizontal;
+            }
+            else if(Role == PlayerRole.GUNNER)
+            {
+                Tank.GunInputHorizontal = -InputHorizontal;
+            }
         }
     }
 
@@ -60,15 +74,16 @@ public class PlayerComponent : NetworkBehaviour
         InputHorizontal = horizontal;
     }
 
-    public override void OnStartClient()
+    [Command]
+    protected void Cmd_SetPlayerInfo(string name, PlayerRole role, Color color)
     {
-        base.OnStartClient();
-        Debug.Log("Client started");
-    }
+        Name = name;
+        Role = role;
+        Color = color;
 
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-        Debug.Log("Server started");
+        if(isServer)
+        {
+            ServerGameManager.Instance.OnPlayerJoined(this);
+        }
     }
 }

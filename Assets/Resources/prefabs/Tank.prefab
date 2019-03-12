@@ -102,7 +102,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d230c171218e4124ab0a1b2ad907ba69, type: 3}
-  m_Color: {r: 0.8773585, g: 0.16967781, b: 0.16967781, a: 1}
+  m_Color: {r: 0.51699895, g: 0.54288775, b: 0.6981132, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -181,7 +181,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d230c171218e4124ab0a1b2ad907ba69, type: 3}
-  m_Color: {r: 0.8773585, g: 0.16967781, b: 0.16967781, a: 1}
+  m_Color: {r: 0.51699895, g: 0.54288775, b: 0.6981132, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -260,7 +260,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d230c171218e4124ab0a1b2ad907ba69, type: 3}
-  m_Color: {r: 0.6037736, g: 0.088287644, b: 0.088287644, a: 1}
+  m_Color: {r: 0.35671058, g: 0.36924788, b: 0.4528302, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -339,7 +339,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d230c171218e4124ab0a1b2ad907ba69, type: 3}
-  m_Color: {r: 0.8773585, g: 0.16967781, b: 0.16967781, a: 1}
+  m_Color: {r: 0.51699895, g: 0.54288775, b: 0.6981132, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -359,7 +359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2954842805374149086}
   m_Layer: 0
-  m_Name: Turret
+  m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -429,7 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncInterval: 0.1
+  syncInterval: 0.05
   compressRotation: 1
 --- !u!114 &2567620613019401549
 MonoBehaviour:
@@ -445,10 +445,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInterval: 0.1
-  InputVertical: 0
-  InputHorizontal: 0
+  RotationSpeed: 15
+  TreadInputVertical: 0
+  TreadInputHorizontal: 0
+  GunInputHorizontal: 0
   Rigidbody2D: {fileID: 2954842805943283936}
   Treads: {fileID: 18485533318473498}
+  TreadGraphics:
+  - {fileID: 2954842805255856560}
+  - {fileID: 2954842805100505463}
+  - {fileID: 2954842805090861197}
+  Gun: {fileID: 2954842805374149085}
+  GunGraphics:
+  - {fileID: 2954842805125828478}
+  - {fileID: 2954842806292667583}
+  Driver: {fileID: 0}
+  Gunner: {fileID: 0}
   Speed: 1
 --- !u!114 &310437508064985261
 MonoBehaviour:
@@ -589,7 +601,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d230c171218e4124ab0a1b2ad907ba69, type: 3}
-  m_Color: {r: 0.6037736, g: 0.088287644, b: 0.088287644, a: 1}
+  m_Color: {r: 0.35671058, g: 0.36924788, b: 0.4528302, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -59,6 +59,8 @@ public class ConnectionMenuController : MonoBehaviour
         var address = JoinNetworkAddressInput.text;
 
         client.Connect(address);
+
+        StartCoroutine(CheckConnection_Coroutine(3.0f, OnConnectionSuccess, OnConnectionFailed));
     }
 
     public void Button_Host()
@@ -66,17 +68,42 @@ public class ConnectionMenuController : MonoBehaviour
         FeedbackText.text = "";
         SetPort(HostPortInput.text);
         var client = NetworkManager.StartHost();
+
+        StartCoroutine(CheckConnection_Coroutine(3.0f, OnConnectionSuccess, OnConnectionFailed));
     }
 
-    public void OnConnectionFailed(NetworkMessage message)
+    public void OnConnectionFailed()
     {
         var client = NetworkManager.client;
         FeedbackText.text = "Failed to connect to server";
     }
 
-    public void OnConnectionSuccess(NetworkMessage message)
+    public void OnConnectionSuccess()
     {
         var client = NetworkManager.client;
         ConnectionMenu.SetActive(false);
+    }
+
+    protected IEnumerator CheckConnection_Coroutine(float timeout, Action success, Action failure)
+    {
+        FeedbackText.text = "Connecting...";
+        var endTime = Time.time + timeout;
+        while(Time.time < endTime)
+        {
+            if((NetworkManager.client != null) && NetworkManager.client.isConnected)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        if ((NetworkManager.client != null) && NetworkManager.client.isConnected)
+        {
+            success();
+        }
+        else
+        {
+            failure();
+        }
     }
 }

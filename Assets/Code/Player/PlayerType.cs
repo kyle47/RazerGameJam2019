@@ -1,5 +1,5 @@
 ﻿
-public enum PlayerType
+public enum PlayerRole
 {
     DRIVER,
     GUNNER
